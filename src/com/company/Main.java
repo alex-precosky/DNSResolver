@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
         String dnsServerHostName =  "198.162.35.1";
-        dnsServerHostName = "127.0.0.1";
+        dnsServerHostName = "l.gtld-servers.net";
         int portNumber = 53;
 
 
@@ -32,7 +32,7 @@ public class Main {
 
         // Send the query
         try{
-            DNSRequest request = new DNSRequest("www.google.com");
+            DNSRequest request = new DNSRequest("google.com");
             byte[] packetBytes = request.serialize();
             InetAddress dnsAddress = InetAddress.getByName(dnsServerHostName);
             DatagramPacket packet = new DatagramPacket(packetBytes, 0, packetBytes.length, dnsAddress, 53);
@@ -43,6 +43,7 @@ public class Main {
         }
 
 
+        // Get the reply
 
 
 

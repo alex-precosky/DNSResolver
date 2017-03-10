@@ -15,7 +15,6 @@ public class DNSRequest {
     public DNSRequest( String hostName )
     {
         DNSHeader header = new DNSHeader();
-        header.id = 1;
         header.rd = true;
         header.q_count = 1;
 
