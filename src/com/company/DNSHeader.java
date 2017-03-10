@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.EmptyStackException;
 import java.util.Random;
 
 public class DNSHeader
@@ -62,6 +63,50 @@ public class DNSHeader
                 }
 
 
+                public DNSHeader( byte[] headerBytes )
+                {
+                        if( headerBytes.length != 18 )
+                                throw new ArrayStoreException();
+
+                        id = (short)(headerBytes[0] << 8 + headerBytes[1]);
+
+                        if((headerBytes[2] & 0x80) != 0)
+                                qr = true;
+
+                        opcode = (headerBytes[2] & 0x78) >>6;
+
+
+                        if((headerBytes[2] & 0x04) != 0)
+                                aa = true;
+
+                        if((headerBytes[2] & 0x02) != 0)
+                                tc = true;
+
+                        if((headerBytes[2] & 0x01) != 0)
+                                rd = true;
+
+                        if((headerBytes[3] & 0x80) != 0)
+                                ra = true;
+
+                        if((headerBytes[3] & 0x40) != 0)
+                                z = true;
+
+                        if((headerBytes[3] & 0x20) != 0)
+                                ad = true;
+
+                        if((headerBytes[3] & 0x10) != 0)
+                                cd = true;
+
+                        rcode = (headerBytes[3] & 0x0F);
+
+
+                        q_count = (short)(headerBytes[4] << 8 + headerBytes[5]);
+                        ans_count = (short)(headerBytes[6] << 8 + headerBytes[7]);
+                        auth_count = (short)(headerBytes[8] << 8 + headerBytes[9]);
+                        add_count = (short)(headerBytes[10] << 8 + headerBytes[11]);
+
+                }
+
                 public DNSHeader()
                 {
                         Random rnd = new Random();
@@ -70,12 +115,8 @@ public class DNSHeader
                         rd = false; // never use recursion
                         tc = false;
                         aa = false;
-
-                        q_count = 1;
-                        ans_count = 0;
-                        auth_count = 0;
-                        add_count = 0;
-
                 }
+
+
 
         }

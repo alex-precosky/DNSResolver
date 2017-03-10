@@ -9,6 +9,17 @@ public class DNSQuestion {
     short qtype = 1;  // 1 for ipv4 address
     short qclass = 1; // 1 for internet
 
+    DNSQuestion( byte[] questionBytes )
+    {
+        hostName = FQDNParser.Parse(questionBytes);
+
+    }
+
+    DNSQuestion()
+    {
+        ;
+    }
+
     public byte[] serialize() {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();

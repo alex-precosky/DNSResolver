@@ -29,23 +29,29 @@ public class Main {
         }
 
 
-
-        // Send the query
+        byte[] receiveData = new byte[512];
         try{
+            // Set up a receiver
+            DatagramSocket receiveSocket = new DatagramSocket(portNumber);
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
+            // Send the query
             DNSRequest request = new DNSRequest("google.com");
             byte[] packetBytes = request.serialize();
             InetAddress dnsAddress = InetAddress.getByName(dnsServerHostName);
-            DatagramPacket packet = new DatagramPacket(packetBytes, 0, packetBytes.length, dnsAddress, 53);
+            DatagramPacket packet = new DatagramPacket(packetBytes, 0, packetBytes.length, dnsAddress, portNumber);
             mySocket.send(packet);
+
+            // Get the reply
+            receiveSocket.receive(receivePacket);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        // Get the reply
-
-
+        // Parse the reply
+        DNSResponse response = new DNSResponse(receiveData);
 
     }
 }
